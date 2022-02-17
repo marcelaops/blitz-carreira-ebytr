@@ -9,9 +9,9 @@ const { getConnection } = require('./mongoMockConnection');
 const TasksModel = require('../models/taskModel');
 // const connection = require('../models/connection');
 
-describe('Será validado que é possível criar uma tarefa com sucesso', () => {
+describe('Inserindo uma tarefa na lista', () => {
   let connectionMock;
-  const mockTask = { name: 'task description' };
+  const payloadTask = { name: 'task description' };
 
   // Mockando a conexão sem subir nada para o MongoDb -> características reais porem sem a conexão real.
   before(async () => {
@@ -26,15 +26,17 @@ describe('Será validado que é possível criar uma tarefa com sucesso', () => {
     MongoClient.connect.restore();
   });
 
-  it('Ao adicionar a tarefa o retorno é um objeto', async () => {
-    const response = await TasksModel.create(mockTask);
-    
-    expect(response).to.be.a('object');
-  });
-
-  it('O objeto retornado possui o "_id" da tarefa inserida', async () => {
-    const response = await TasksModel.create(mockTask);
-    
-    expect(response).to.have.a.property('_id');
+  describe('A tarefa é inserida com sucesso', () => {
+    it('Ao adicionar a tarefa o retorno é um objeto', async () => {
+      const response = await TasksModel.create(payloadTask);
+      
+      expect(response).to.be.a('object');
+    });
+  
+    it('O objeto retornado possui o "_id" da tarefa inserida', async () => {
+      const response = await TasksModel.create(payloadTask);
+      
+      expect(response).to.have.a.property('_id');
+    });
   });
 });
