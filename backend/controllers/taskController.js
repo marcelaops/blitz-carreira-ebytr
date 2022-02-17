@@ -8,7 +8,8 @@ const create = async (req, res, next) => {
 
     const task = await taskService.create(name);
     
-    return res.status(CREATED).json(task, { message: 'Tarefa criada com sucesso' });
+    if (!task) return res.status(400).json({ message: 'dados inválidos' });
+    return res.status(CREATED).json({ message: 'Tarefa criada com sucesso' });
   } catch (error) {
     console.log(`POST - create task -> ${error}`);
     return next(error);
